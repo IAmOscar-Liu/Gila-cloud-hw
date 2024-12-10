@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.element-h-full {
+  @apply overflow-y-auto;
+}
+
+.element-h-full > * {
+  @apply h-full; /* Tailwind utilities */
+}

@@ -1,0 +1,82 @@
+{
+  "Introduction": [
+    {
+      "startAt": 0,
+      "duration": 5,
+      "content": "Welcome to our product demonstration.",
+      "highlighted": false
+    },
+    {
+      "startAt": 5,
+      "duration": 10,
+      "content": "Today, we'll be showcasing our latest innovation.",
+      "highlighted": true
+    }
+  ],
+  "Key Features": [
+    {
+      "startAt": 15,
+      "duration": 5,
+      "content": "Our product has three main features.",
+      "highlighted": false
+    },
+    {
+      "startAt": 20,
+      "duration": 5,
+      "content": "First, it's incredible easy to use.",
+      "highlighted": false
+    },
+    {
+      "startAt": 25,
+      "duration": 5,
+      "content": "Second, it's highly efficient.",
+      "highlighted": false
+    },
+    {
+      "startAt": 30,
+      "duration": 10,
+      "content": "And third, it's cost-effective.",
+      "highlighted": false
+    }
+  ],
+  "Demonstration": [
+    {
+      "startAt": 40,
+      "duration": 5,
+      "content": "Let me show you how it works.",
+      "highlighted": false
+    },
+    {
+      "startAt": 45,
+      "duration": 5,
+      "content": "Simply press this button to start.",
+      "highlighted": true
+    },
+    {
+      "startAt": 50,
+      "duration": 10,
+      "content": "The interface is intuitive and user-friendly.",
+      "highlighted": true
+    }
+  ],
+  "Conclusion": [
+    {
+      "startAt": 60,
+      "duration": 5,
+      "content": "In conclusion, our product is a game-changer.",
+      "highlighted": false
+    },
+    {
+      "startAt": 65,
+      "duration": 5,
+      "content": "We're excited to bring this to market.",
+      "highlighted": true
+    },
+    {
+      "startAt": 70,
+      "duration": 5,
+      "content": "Thank you for your attention.",
+      "highlighted": false
+    }
+  ]
+}
