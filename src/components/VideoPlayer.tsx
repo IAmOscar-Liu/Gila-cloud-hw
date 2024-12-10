@@ -58,7 +58,6 @@ function VideoPlayer({ className = "" }: { className?: string }) {
 
   return (
     <div className={cn("", className)}>
-      <p>fileAt: {fileAt ?? "undefined"}</p>
       <VideoContainer
         ref={videoContainerRef}
         key={fileAt === undefined ? undefined : files[fileAt]?.file.name}

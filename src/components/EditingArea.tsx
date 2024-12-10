@@ -1,13 +1,11 @@
 import { useShallow } from "zustand/shallow";
+import { useEventStore } from "../store/eventStore";
 import { useTranscriptStore } from "../store/transcriptStore";
 import { cn } from "../utils/cn";
 import { formatSecondsToTime } from "../utils/formatSecondsToTime";
 import Error from "./Error";
 import Loading from "./Loading";
 import NoData from "./NoData";
-import { useEventStore } from "../store/eventStore";
-import { userInfo } from "os";
-import { useRef } from "react";
 
 function EditingArea() {
   const {
@@ -41,8 +39,6 @@ function EditingArea() {
           .get(currentClip.group)
           ?.find((d) => d.startAt === currentClip.startAt)?.startAt
       : undefined;
-
-  const activeClipRef = useRef<HTMLLIElement>(null);
 
   return (
     <div className="bg-secondary-light">
