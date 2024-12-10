@@ -6,6 +6,8 @@ import Error from "./Error";
 import Loading from "./Loading";
 import NoData from "./NoData";
 import { useEventStore } from "../store/eventStore";
+import { userInfo } from "os";
+import { useRef } from "react";
 
 function EditingArea() {
   const {
@@ -40,6 +42,8 @@ function EditingArea() {
           ?.find((d) => d.startAt === currentClip.startAt)?.startAt
       : undefined;
 
+  const activeClipRef = useRef<HTMLLIElement>(null);
+
   return (
     <div className="bg-secondary-light">
       <div className="mx-auto flex h-screen w-[90%] max-w-[600px] flex-col py-4">
@@ -65,18 +69,24 @@ function EditingArea() {
                       {value.map((clip, clipIdx) => (
                         <li
                           key={clip.startAt}
+                          ref={(ref) => {
+                            if (clip.startAt === currentClipStartAt)
+                              ref?.scrollIntoView({
+                                behavior: "smooth",
+                              });
+                          }}
                           className={cn(
-                            "group flex cursor-pointer items-center rounded-md bg-white py-1 shadow-sm",
+                            "group flex cursor-pointer items-center rounded-md bg-white py-2 shadow-sm",
                             {
                               "highlight bg-primary text-white":
                                 clip.highlighted,
-                              "active text-highlight-text border-[2px] border-highlight":
+                              "active border-[2px] border-highlight text-highlight-text":
                                 clip.startAt === currentClipStartAt,
                             },
                           )}
                         >
                           <p
-                            className="group-[.active.highlight]:text-highlight-text group-[.active]:text-highlight-text px-2 font-semibold text-primary group-[.highlight]:text-white"
+                            className="px-2 font-semibold text-primary group-[.active.highlight]:text-highlight-text group-[.active]:text-highlight-text group-[.highlight]:text-white"
                             onClick={() =>
                               publish("videoCurrentTime", clip.startAt)
                             }

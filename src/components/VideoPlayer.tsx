@@ -37,7 +37,7 @@ function VideoPlayer({ className = "" }: { className?: string }) {
     "Playing" | "Paused" | "Ended"
   >("Paused");
   const fileDuration =
-    fileAt === undefined ? undefined : files[fileAt].fileDuration;
+    fileAt === undefined ? undefined : files[fileAt]?.fileDuration;
 
   const { subscribe, unsubscribe } = useEventStore(
     useShallow((state) => ({
@@ -58,10 +58,11 @@ function VideoPlayer({ className = "" }: { className?: string }) {
 
   return (
     <div className={cn("", className)}>
+      <p>fileAt: {fileAt ?? "undefined"}</p>
       <VideoContainer
         ref={videoContainerRef}
-        key={fileAt === undefined ? undefined : files[fileAt].file.name}
-        file={fileAt === undefined ? undefined : files[fileAt].file}
+        key={fileAt === undefined ? undefined : files[fileAt]?.file.name}
+        file={fileAt === undefined ? undefined : files[fileAt]?.file}
         transcriptClipAt={transcriptClipAt}
         transcriptClips={transcriptClips}
         setVideoStatus={setVideoStatus}
@@ -110,7 +111,7 @@ function VideoPlayer({ className = "" }: { className?: string }) {
           <VideoCurrentTimeText />
           {" / "}
           {formatSecondsToTime(
-            fileAt === undefined ? undefined : files[fileAt].fileDuration,
+            fileAt === undefined ? undefined : files[fileAt]?.fileDuration,
           )}
         </p>
       </div>
@@ -155,7 +156,7 @@ function VideoHighlightSegment({ duration }: { duration: number | undefined }) {
   }, [transcriptClips]);
 
   return (
-    <div className="bg-secondary-progressbar relative h-6 overflow-hidden rounded-md">
+    <div className="relative h-6 overflow-hidden rounded-md bg-secondary-progressbar">
       {duration !== undefined &&
         mergedClips.map((clip) => (
           <div

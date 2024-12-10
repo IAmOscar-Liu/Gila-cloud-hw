@@ -16,7 +16,7 @@ export const useTranscriptStore = create<TranscriptState & TranscriptAction>()(
     fileAt: undefined,
     files: [],
     onFileChange: (files) => {
-      // console.log(files);
+      console.log(files);
       const oldFiles = get().files;
       const oldfileAt = get().fileAt;
       const addedFiles = files
@@ -48,24 +48,37 @@ export const useTranscriptStore = create<TranscriptState & TranscriptAction>()(
     },
     removeFile: (removeAt) => {
       const oldFiles = get().files;
+      if (removeAt < 0 || removeAt >= oldFiles.length) return;
+
       const oldfileAt = get().fileAt;
-      const newFileAt =
-        oldfileAt === undefined || oldfileAt === removeAt
-          ? undefined
-          : oldfileAt > removeAt
-            ? oldfileAt - 1
-            : oldfileAt;
-      const newCurrentTime =
-        oldfileAt === undefined || oldfileAt === removeAt
-          ? 0
-          : get().currentTime;
+      if (oldfileAt === undefined || oldfileAt === removeAt) {
+        return set({
+          currentTime: 0,
+          transcriptClips: [],
+          transcriptClipAt: undefined,
+          files: oldFiles.filter((_, idx) => idx !== removeAt),
+          fileAt: undefined,
+        });
+      }
+      // console.log("removeAt: " + removeAt);
+      // console.log("oldFileAt: " + oldfileAt);
+      // console.log(
+      //   "new FileAt: " + (oldfileAt > removeAt ? oldfileAt - 1 : oldfileAt),
+      // );
+
       set({
-        currentTime: newCurrentTime,
         files: oldFiles.filter((_, idx) => idx !== removeAt),
-        fileAt: newFileAt,
+        fileAt: oldfileAt > removeAt ? oldfileAt - 1 : oldfileAt,
       });
     },
-    clearFiles: () => set({ files: [], fileAt: undefined }),
+    clearFiles: () =>
+      set({
+        currentTime: 0,
+        transcriptClips: [],
+        transcriptClipAt: undefined,
+        fileAt: undefined,
+        files: [],
+      }),
     setCurrentFile: (targetAt) => {
       const oldFiles = get().files;
       if (targetAt === undefined || targetAt < 0 || targetAt > oldFiles.length)

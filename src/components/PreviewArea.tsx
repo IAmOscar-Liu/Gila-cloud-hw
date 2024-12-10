@@ -23,7 +23,7 @@ function PreviewArea() {
         <div className="mt-2 h-0 flex-grow overflow-y-auto">
           <VideoPlayer className="mt-4" />
           <div className="mt-6 flex flex-wrap items-start gap-3 pe-2">
-            <label className="bg-secondary-progressbar flex h-[90px] w-[150px] cursor-pointer flex-col items-center justify-center rounded-md px-2 py-2 shadow-md">
+            <label className="flex h-[90px] w-[150px] cursor-pointer flex-col items-center justify-center rounded-md bg-secondary-progressbar px-2 py-2 shadow-md">
               <input
                 type="file"
                 accept="video/*"
@@ -41,7 +41,7 @@ function PreviewArea() {
                 key={file.file.name}
                 onClick={() => fIdx !== fileAt && setCurrentFile(fIdx)}
                 className={cn(
-                  "bg-secondary-progressbar relative flex h-[90px] w-[150px] cursor-pointer flex-col items-center justify-center rounded-md px-2 py-1 shadow-md",
+                  "relative flex h-[90px] w-[150px] cursor-pointer flex-col items-center justify-center rounded-md bg-secondary-progressbar px-2 py-1 shadow-md",
                   {
                     "cursor-default bg-primary": fIdx === fileAt,
                   },
@@ -53,7 +53,10 @@ function PreviewArea() {
                 </p>
                 <div
                   className="absolute -right-1.5 -top-1.5 cursor-pointer rounded-full bg-slate-300 p-1"
-                  onClick={() => removeFile(fIdx)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(fIdx);
+                  }}
                 >
                   <X className="size-4" />
                 </div>
