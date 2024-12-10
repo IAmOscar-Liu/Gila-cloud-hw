@@ -42,7 +42,7 @@ function EditingArea() {
 
   return (
     <div className="bg-secondary-light">
-      <div className="mx-auto flex h-screen w-[90%] max-w-[600px] flex-col py-4">
+      <div className="mx-auto flex h-[800px] w-[90%] max-w-[600px] flex-col py-4 md:h-screen">
         <h1 className="text-2xl font-semibold tracking-tight">Transcript</h1>
         <div className="mt-2 h-0 flex-grow space-y-3 overflow-y-auto">
           {transcriptFile === undefined ? (
@@ -69,6 +69,7 @@ function EditingArea() {
                             if (clip.startAt === currentClipStartAt)
                               ref?.scrollIntoView({
                                 behavior: "smooth",
+                                block: "nearest",
                               });
                           }}
                           className={cn(

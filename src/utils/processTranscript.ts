@@ -62,7 +62,7 @@ export function processTranscript(
     newData["Demonstration"].push(data["Demonstration"].shift()!);
   }
 
-  console.log("duration: ", duration);
+  // console.log("duration: ", duration);
   if (duration >= 5) {
     let i = 0;
     while (i < Math.floor(duration / 5) * 5) {

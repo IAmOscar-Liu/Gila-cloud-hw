@@ -18,7 +18,7 @@ function PreviewArea() {
 
   return (
     <div className="bg-secondary-dark">
-      <div className="mx-auto flex h-screen w-[90%] max-w-[600px] flex-col py-4 text-white">
+      <div className="mx-auto flex h-[800px] w-[90%] max-w-[600px] flex-col py-4 text-white md:h-screen">
         <h1 className="text-2xl font-semibold tracking-tight">Preview</h1>
         <div className="mt-2 h-0 flex-grow overflow-y-auto">
           <VideoPlayer className="mt-4" />

@@ -1,12 +1,9 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import * as api from "../api";
 import { TranscriptAction, TranscriptState } from "../types/Transcript";
 import { findCurrentChipsAt } from "../utils/findCurrentChipAt";
-import {
-  processTranscript,
-  toTranscriptClips,
-} from "../utils/processTranscript";
-import { waitFor } from "../utils/waitFor";
+import { toTranscriptClips } from "../utils/processTranscript";
 
 export const useTranscriptStore = create<TranscriptState & TranscriptAction>()(
   devtools((set, get) => ({
@@ -101,22 +98,23 @@ export const useTranscriptStore = create<TranscriptState & TranscriptAction>()(
       //     time < oldClips[newChipAt].startAt + oldClips[newChipAt].duration;
 
       if (oldTime <= time && time < oldTime + 1) {
+        // current time is less than 1 second ahead of previous time, search the next
         while (
           oldClips[newChipAt].startAt > time ||
           time >= oldClips[newChipAt].startAt + oldClips[newChipAt].duration
         ) {
           newChipAt++;
-          // if (oldClips[newChipAt] === undefined) break;
         }
         newChipAt =
           oldClips[newChipAt] !== undefined ? newChipAt : oldClips.length - 1;
       } else {
+        // otherwise, use binary search to find the corresponding clip
         newChipAt = findCurrentChipsAt(oldClips, time);
       }
       // console.log("transcriptClipAt: " + newChipAt);
       set({ currentTime: time, transcriptClipAt: newChipAt });
     },
-    fetchVideoInfo: async (index, info) => {
+    fetchVideoInfo: (index, info) => {
       const oldFiles = get().files;
       if (
         oldFiles[index].fileDuration !== undefined &&
@@ -127,63 +125,64 @@ export const useTranscriptStore = create<TranscriptState & TranscriptAction>()(
           transcriptClips: toTranscriptClips(oldFiles[index].transcriptData),
           transcriptClipAt: 0,
         });
-      try {
-        set({
-          currentTime: 0,
-          transcriptClips: [],
-          transcriptClipAt: undefined,
-          files: oldFiles.map((oldFile, io) =>
-            io !== index
-              ? oldFile
-              : {
-                  ...oldFile,
-                  transcriptData: undefined,
-                  fileDuration: info.fileDuration,
-                  isLoading: true,
-                  error: null,
-                },
-          ),
+
+      set({
+        currentTime: 0,
+        transcriptClips: [],
+        transcriptClipAt: undefined,
+        files: oldFiles.map((oldFile, io) =>
+          io !== index
+            ? oldFile
+            : {
+                ...oldFile,
+                transcriptData: undefined,
+                fileDuration: info.fileDuration,
+                isLoading: true,
+                error: null,
+              },
+        ),
+      });
+
+      api
+        .fetchTranscript(info)
+        .then((tData) => {
+          const tClips = toTranscriptClips(tData);
+          console.log("tClips: ", tClips);
+          set({
+            currentTime: 0,
+            transcriptClips: tClips,
+            transcriptClipAt: 0,
+            files: oldFiles.map((oldFile, io) =>
+              io !== index
+                ? oldFile
+                : {
+                    ...oldFile,
+                    transcriptData: tData,
+                    fileDuration: info.fileDuration,
+                    isLoading: false,
+                    error: null,
+                  },
+            ),
+          });
+        })
+        .catch((error) => {
+          set({
+            currentTime: 0,
+            transcriptClips: [],
+            transcriptClipAt: undefined,
+            files: oldFiles.map((oldFile, io) =>
+              io !== index
+                ? oldFile
+                : {
+                    ...oldFile,
+                    transcriptData: undefined,
+                    fileDuration: info.fileDuration,
+                    isLoading: false,
+                    error: error,
+                  },
+            ),
+          });
         });
-        const res = await fetch("/transcript.json");
-        await waitFor(600);
-        const json = await res.json();
-        const tData = processTranscript(json, info.fileDuration ?? 60);
-        const tClips = toTranscriptClips(tData);
-        console.log("tClips: ", tClips);
-        set({
-          currentTime: 0,
-          transcriptClips: tClips,
-          transcriptClipAt: 0,
-          files: oldFiles.map((oldFile, io) =>
-            io !== index
-              ? oldFile
-              : {
-                  ...oldFile,
-                  transcriptData: tData,
-                  fileDuration: info.fileDuration,
-                  isLoading: false,
-                  error: null,
-                },
-          ),
-        });
-      } catch (error) {
-        set({
-          currentTime: 0,
-          transcriptClips: [],
-          transcriptClipAt: undefined,
-          files: oldFiles.map((oldFile, io) =>
-            io !== index
-              ? oldFile
-              : {
-                  ...oldFile,
-                  transcriptData: undefined,
-                  fileDuration: info.fileDuration,
-                  isLoading: false,
-                  error: error,
-                },
-          ),
-        });
-      }
     },
     highlightTranscriptClip: (fIdx, group, clipIdx) => {
       const oldFiles = get().files;
