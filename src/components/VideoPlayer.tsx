@@ -122,8 +122,13 @@ function VideoPlayer({ className = "" }: { className?: string }) {
 }
 
 function VideoCurrentTimeText() {
-  const currentTime = useTranscriptStore((state) => state.currentTime);
-  return <>{formatSecondsToTime(currentTime)}</>;
+  const { currentTime, draggingTime } = useTranscriptStore(
+    useShallow((state) => ({
+      currentTime: state.currentTime,
+      draggingTime: state.draggingTime,
+    })),
+  );
+  return <>{formatSecondsToTime(draggingTime ?? currentTime)}</>;
 }
 
 export default VideoPlayer;

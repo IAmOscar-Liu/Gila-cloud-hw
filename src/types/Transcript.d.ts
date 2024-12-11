@@ -19,6 +19,7 @@ export type TranscriptFile = {
 
 export type TranscriptState = {
   currentTime: number;
+  draggingTime: number | undefined;
   transcriptClips: TranscriptClip[];
   transcriptClipAt: number | undefined;
   fileAt: number | undefined;
@@ -30,6 +31,7 @@ export type TranscriptAction = {
   removeFile: (index: number) => void;
   clearFiles: () => void;
   setCurrentFile: (index: number | undefined) => void;
+  setDraggingTime: (time: number | undefined) => void;
   setCurrentTime: (time: number) => void;
   fetchVideoInfo: (
     index: number,

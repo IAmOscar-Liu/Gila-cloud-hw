@@ -1,21 +1,24 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { useShallow } from "zustand/shallow";
-import { useTranscriptStore } from "../store/transcriptStore";
 import { useEventStore } from "../store/eventStore";
+import { useTranscriptStore } from "../store/transcriptStore";
 
 function VideoProgressbar2({ duration }: { duration: number | undefined }) {
-  const { transcriptClips, currentTime } = useTranscriptStore(
-    useShallow((state) => ({
-      currentTime: state.currentTime,
-      transcriptClips: state.transcriptClips,
-    })),
-  );
+  const { transcriptClips, currentTime, draggingTime, setDraggingTime } =
+    useTranscriptStore(
+      useShallow((state) => ({
+        currentTime: state.currentTime,
+        draggingTime: state.draggingTime,
+        setDraggingTime: state.setDraggingTime,
+        transcriptClips: state.transcriptClips,
+      })),
+    );
   const publish = useEventStore((state) => state.publish);
 
   // const currentTime = 0;
-  const [draggingTime, setDraggingTime] = useState<number | undefined>(
-    undefined,
-  ); // Range value
+  // const [draggingTime, setDraggingTime] = useState<number | undefined>(
+  //   undefined,
+  // ); // Range value
   const trackRef = useRef<HTMLDivElement>(null);
 
   const mergedClips = useMemo(() => {

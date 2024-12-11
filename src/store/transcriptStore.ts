@@ -8,6 +8,7 @@ import { toTranscriptClips } from "../utils/processTranscript";
 export const useTranscriptStore = create<TranscriptState & TranscriptAction>()(
   devtools((set, get) => ({
     currentTime: 0,
+    draggingTime: undefined,
     transcriptClips: [],
     transcriptClipAt: undefined,
     fileAt: undefined,
@@ -114,6 +115,7 @@ export const useTranscriptStore = create<TranscriptState & TranscriptAction>()(
       // console.log("transcriptClipAt: " + newChipAt);
       set({ currentTime: time, transcriptClipAt: newChipAt });
     },
+    setDraggingTime: (time) => set({ draggingTime: time }),
     fetchVideoInfo: (index, info) => {
       const oldFiles = get().files;
       if (
