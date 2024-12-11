@@ -114,7 +114,7 @@ function VideoPlayer({ className = "" }: { className?: string }) {
           )}
         </p>
       </div>
-      <VideoHighlightSegment duration={fileDuration} />
+      <VideoProgressbar duration={fileDuration} />
     </div>
   );
 }
@@ -128,7 +128,7 @@ function VideoCurrentTimeText() {
   return <>{formatSecondsToTime(currentTime)}</>;
 }
 
-function VideoHighlightSegment({ duration }: { duration: number | undefined }) {
+function VideoProgressbar({ duration }: { duration: number | undefined }) {
   const { currentTime, transcriptClips } = useTranscriptStore(
     useShallow((state) => ({
       currentTime: state.currentTime,
@@ -155,7 +155,7 @@ function VideoHighlightSegment({ duration }: { duration: number | undefined }) {
   }, [transcriptClips]);
 
   return (
-    <div className="relative h-6 overflow-hidden rounded-md bg-secondary-progressbar">
+    <div className="relative mx-1 h-6 rounded-md bg-secondary-progressbar">
       {duration !== undefined &&
         mergedClips.map((clip) => (
           <div
@@ -169,10 +169,10 @@ function VideoHighlightSegment({ duration }: { duration: number | undefined }) {
         ))}
       {duration !== undefined && (
         <div
-          className="absolute top-0 h-full bg-danger"
+          className="absolute top-0 h-full rounded-sm bg-danger"
           style={{
-            width: 4,
-            left: `calc(${(currentTime / duration) * 100}% - 2px)`,
+            width: 12,
+            left: `calc(${(currentTime / duration) * 100}% - 6px)`,
           }}
         ></div>
       )}

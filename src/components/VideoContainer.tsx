@@ -94,7 +94,8 @@ function VideoContainer(
           {currentTranscript && (
             <p
               className={cn("absolute bottom-4 left-[5%] w-[90%]", {
-                "text-primary drop-shadow-sm": currentTranscript.highlighted,
+                "text-lg text-primary drop-shadow-sm":
+                  currentTranscript.highlighted,
               })}
             >
               {currentTranscript.content}
