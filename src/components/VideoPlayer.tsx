@@ -6,11 +6,11 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
-import { useEventStore } from "../store/eventStore";
 import { useTranscriptStore } from "../store/transcriptStore";
 import { cn } from "../utils/cn";
 import { formatSecondsToTime } from "../utils/formatSecondsToTime";
 import VideoContainer, { VideoContainerHandle } from "./VideoContainer";
+import { useEventStore } from "../store/eventStore";
 import VideoProgressbar2 from "./VideoProgressbar2";
 
 function VideoPlayer({ className = "" }: { className?: string }) {
@@ -122,11 +122,7 @@ function VideoPlayer({ className = "" }: { className?: string }) {
 }
 
 function VideoCurrentTimeText() {
-  const { currentTime } = useTranscriptStore(
-    useShallow((state) => ({
-      currentTime: state.currentTime,
-    })),
-  );
+  const currentTime = useTranscriptStore((state) => state.currentTime);
   return <>{formatSecondsToTime(currentTime)}</>;
 }
 

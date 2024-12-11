@@ -56,7 +56,10 @@ function VideoContainer(
     play: () => videoRef.current?.play(),
     pause: () => videoRef.current?.pause(),
     goTo: (time) => {
-      if (videoRef.current) videoRef.current.currentTime = time;
+      if (videoRef.current) {
+        setCurrentTime(time);
+        videoRef.current.currentTime = time;
+      }
     },
   }));
 
