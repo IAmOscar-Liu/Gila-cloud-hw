@@ -73,17 +73,17 @@ function EditingArea() {
                               });
                           }}
                           className={cn(
-                            "group flex cursor-pointer items-center rounded-md bg-white py-2 shadow-sm",
+                            "group flex cursor-pointer items-center rounded-md bg-white py-2 shadow-sm transition-colors",
                             {
                               "highlight bg-primary text-white":
                                 clip.highlighted,
-                              "active border-[2px] border-highlight text-highlight-text":
+                              "active text-highlight-dark border-[3px] border-highlight":
                                 clip.startAt === currentClipStartAt,
                             },
                           )}
                         >
                           <p
-                            className="px-2 font-semibold text-primary group-[.active.highlight]:text-highlight-text group-[.active]:text-highlight-text group-[.highlight]:text-white"
+                            className="group-[.active.highlight]:text-highlight-dark group-[.active]:text-highlight-dark px-2 font-semibold text-primary group-[.highlight]:text-white"
                             onClick={() =>
                               publish("videoCurrentTime", clip.startAt)
                             }

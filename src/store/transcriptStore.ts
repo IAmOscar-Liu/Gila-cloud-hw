@@ -149,7 +149,7 @@ export const useTranscriptStore = create<TranscriptState & TranscriptAction>()(
           const tClips = toTranscriptClips(tData);
           console.log("tClips: ", tClips);
           set({
-            currentTime: 0,
+            // currentTime: 0,
             transcriptClips: tClips,
             transcriptClipAt: 0,
             files: oldFiles.map((oldFile, io) =>

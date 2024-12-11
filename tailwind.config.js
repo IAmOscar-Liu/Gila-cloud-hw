@@ -20,7 +20,7 @@ export default {
         },
         highlight: {
           DEFAULT: "rgba(250, 204, 20, 1)",
-          text: "rgba(253, 202, 0, 1)",
+          dark: "rgba(253, 202, 0, 1)",
         },
       },
     },

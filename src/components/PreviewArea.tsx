@@ -20,9 +20,9 @@ function PreviewArea() {
     <div className="bg-secondary-dark">
       <div className="mx-auto flex h-[800px] w-[90%] max-w-[600px] flex-col py-4 text-white md:h-screen">
         <h1 className="text-2xl font-semibold tracking-tight">Preview</h1>
-        <div className="mt-2 h-0 flex-grow overflow-y-auto">
+        <div className="mt-2 h-0 flex-grow overflow-y-auto px-1.5">
           <VideoPlayer className="mt-4" />
-          <div className="mt-6 flex flex-wrap items-start gap-3 pe-2">
+          <div className="mt-6 flex flex-wrap items-start gap-3">
             <label className="flex h-[90px] w-[150px] cursor-pointer flex-col items-center justify-center rounded-md bg-secondary-progressbar px-2 py-2 shadow-md">
               <input
                 type="file"
