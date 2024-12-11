@@ -95,14 +95,19 @@ function VideoContainer(
             Your browser does not support HTML5 video.
           </video>
           {currentTranscript && (
-            <p
-              className={cn("absolute bottom-4 left-[5%] w-[90%]", {
-                "text-lg text-primary drop-shadow-sm":
-                  currentTranscript.highlighted,
-              })}
+            <div
+              className={cn(
+                "absolute bottom-4 left-[5%] flex w-[90%] text-lg",
+                {
+                  "highlight group text-primary drop-shadow-sm":
+                    currentTranscript.highlighted,
+                },
+              )}
             >
-              {currentTranscript.content}
-            </p>
+              <p className="bg-[rgba(0,0,0,.5)] px-2 group-[.highlight]:bg-[rgba(0,0,0,.2)]">
+                {currentTranscript.content}
+              </p>
+            </div>
           )}
         </>
       ) : (
