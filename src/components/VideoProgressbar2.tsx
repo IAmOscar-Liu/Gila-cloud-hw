@@ -43,7 +43,7 @@ function VideoProgressbar2({ duration }: { duration: number | undefined }) {
     const rect = track.getBoundingClientRect();
     const offsetX = e.clientX - rect.left; // Distance from the left of the track
     return Math.min(
-      100,
+      duration,
       Math.max(0, (offsetX / rect.width) * duration), // Constrain between 0 and 100
     );
   };
