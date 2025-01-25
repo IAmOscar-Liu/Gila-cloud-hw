@@ -20,6 +20,7 @@ function VideoProgressbar2({ duration }: { duration: number | undefined }) {
   //   undefined,
   // ); // Range value
   const trackRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController>();
 
   const mergedClips = useMemo(() => {
     const result: { duration: number; startAt: number }[] = [];
@@ -58,8 +59,13 @@ function VideoProgressbar2({ duration }: { duration: number | undefined }) {
 
   const handleMouseDown = (e: MouseEvent) => {
     // console.log("handleMouseDown");
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
+    abortControllerRef.current = new AbortController();
+    document.addEventListener("mousemove", handleMouseMove, {
+      signal: abortControllerRef.current.signal,
+    });
+    document.addEventListener("mouseup", handleMouseUp, {
+      signal: abortControllerRef.current.signal,
+    });
     setDraggingTime(calculateCurrentTime(e));
   };
 
@@ -70,8 +76,9 @@ function VideoProgressbar2({ duration }: { duration: number | undefined }) {
     setDraggingTime(undefined);
     // publish("videoCurrentTime", draggingTime);
     // setDraggingTime(undefined);
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
+    // document.removeEventListener("mousemove", handleMouseMove);
+    // document.removeEventListener("mouseup", handleMouseUp);
+    abortControllerRef.current?.abort();
   };
 
   return (
